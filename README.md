@@ -13,6 +13,10 @@ This gem allows you to access the Chicago Transit Authority API via Ruby. You ca
 * http://www.transitchicago.com/developers/bustracker.aspx
 * http://www.transitchicago.com/developers/traintracker.aspx
 
+While no keys are required for the CustomerAlerts API, you can find more information about this part of the API at:
+
+* http://www.transitchicago.com/developers/alerts.aspx
+
 ## Bus Tracker
 
 ### Setup
@@ -88,4 +92,54 @@ CTA::TrainTracker.stations
 
 ``` ruby
 CTA::TrainTracker.arrivals :stpid => "30106"
+```
+
+## Customer Alerts
+
+### Setup
+
+``` ruby
+require 'cta-api'
+```
+
+### Get the status of a route
+
+``` ruby
+# routes (train)
+options = {
+  :routeid => "red,blue"
+}
+
+CTA::CustomerAlerts.routes(options)
+
+# routes (bus)
+options = {
+  :routeid => "8,36"
+}
+
+CTA::CustomerAlerts.routes(options)
+```
+
+### Get alerts from the system
+
+```ruby
+# alerts
+CTA::CustomerAlerts.alerts
+
+# alerts (with options)
+options = {
+  :activeonly => true,
+}
+
+CTA::CustomerAlerts.alerts(options)
+```
+
+### Get a List of routes (pre-compiled list as of 2016-09-30 - this API does not provide live route information)
+
+``` ruby
+# train_routes
+CTA::CustomerAlerts.train_routes
+
+# bus_routes
+CTA::CustomerAlerts.bus_routes
 ```
