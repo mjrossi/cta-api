@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<CTARoutes>
+  <ErrorCode>0</ErrorCode>
+  <ErrorMessage/>
+  <RouteInfo>
+    <Route>Red Line</Route>
+    <RouteColorCode>c60c30</RouteColorCode>
+    <RouteTextColor>ffffff</RouteTextColor>
+    <ServiceId>Red</ServiceId>
+    <RouteURL>http://www.transitchicago.com/redline/</RouteURL>
+    <RouteStatus>Normal Service</RouteStatus>
+    <RouteStatusColor>00a652</RouteStatusColor>
+  </RouteInfo>
+</CTARoutes>

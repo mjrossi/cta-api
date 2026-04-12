@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<bustime-response>
+  <vehicle>
+    <vid>1782</vid>
+    <tmstmp>20260412 14:30:00</tmstmp>
+    <lat>41.8781</lat>
+    <lon>-87.6298</lon>
+    <hdg>270</hdg>
+    <pid>5431</pid>
+    <rt>50</rt>
+    <des>West</des>
+    <pdist>1250</pdist>
+    <dly>false</dly>
+    <spd>24</spd>
+  </vehicle>
+  <vehicle>
+    <vid>1419</vid>
+    <tmstmp>20260412 14:30:00</tmstmp>
+    <lat>41.8795</lat>
+    <lon>-87.6350</lon>
+    <hdg>90</hdg>
+    <pid>5432</pid>
+    <rt>50</rt>
+    <des>East</des>
+    <pdist>800</pdist>
+    <dly>false</dly>
+    <spd>18</spd>
+  </vehicle>
+</bustime-response>

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<bustime-response>
+  <ptr>
+    <pid>5431</pid>
+    <ln>12500</ln>
+    <rtdir>Northbound</rtdir>
+  </ptr>
+</bustime-response>

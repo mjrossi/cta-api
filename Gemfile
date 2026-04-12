@@ -1,4 +1,16 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
 
-# Specify your gem's dependencies in cta-api.gemspec
+source "https://rubygems.org"
+
 gemspec
+
+group :development, :test do
+  gem "rake", "~> 13.0"
+  gem "rspec", "~> 3.0"
+  gem "rubocop", "~> 1.0"
+  gem "webmock", "~> 3.0"
+end
+
+group :development do
+  gem "pry"
+end

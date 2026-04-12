@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<CTAAlerts>
+  <ErrorCode>0</ErrorCode>
+  <ErrorMessage/>
+  <Alert>
+    <AlertId>12345</AlertId>
+    <Headline>Red Line Service Alert</Headline>
+    <ShortDescription>Expect delays on the Red Line</ShortDescription>
+    <FullDescription>Due to signal problems, expect delays on the Red Line between Howard and 95th.</FullDescription>
+    <SeverityScore>25</SeverityScore>
+    <SeverityColor>ffff00</SeverityColor>
+    <SeverityCSS>yellow</SeverityCSS>
+    <Impact>Minor Delays</Impact>
+    <EventStart>20260412 08:00:00</EventStart>
+  </Alert>
+  <Alert>
+    <AlertId>12346</AlertId>
+    <Headline>Blue Line Construction</Headline>
+    <ShortDescription>Blue Line station work</ShortDescription>
+    <FullDescription>Station renovation at Logan Square.</FullDescription>
+    <SeverityScore>15</SeverityScore>
+    <SeverityColor>ffff00</SeverityColor>
+    <SeverityCSS>yellow</SeverityCSS>
+    <Impact>Station Closure</Impact>
+    <EventStart>20260410 06:00:00</EventStart>
+  </Alert>
+</CTAAlerts>

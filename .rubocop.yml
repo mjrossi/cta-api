@@ -1,0 +1,38 @@
+AllCops:
+  TargetRubyVersion: 3.1
+  NewCops: enable
+  SuggestExtensions: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  EnforcedStyle: always
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 15
+
+Metrics/AbcSize:
+  Max: 20
+
+# CTA API uses short parameter names (rt, vid, pid) — these are the actual API field names
+Naming/MethodParameterName:
+  AllowedNames:
+    - rt
+    - vid
+    - pid
+    - dir
+
+# The gem is named cta-api, the hyphenated filename is intentional
+Naming/FileName:
+  Exclude:
+    - "lib/cta-api.rb"
+
+# RSpec describe blocks are naturally long
+Metrics/BlockLength:
+  Exclude:
+    - "spec/**/*"

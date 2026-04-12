@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<bustime-response>
+  <stop>
+    <stpid>8923</stpid>
+    <stpnm>Damen &amp; Madison</stpnm>
+    <lat>41.8819</lat>
+    <lon>-87.6768</lon>
+  </stop>
+  <stop>
+    <stpid>8924</stpid>
+    <stpnm>Damen &amp; Monroe</stpnm>
+    <lat>41.8805</lat>
+    <lon>-87.6768</lon>
+  </stop>
+</bustime-response>

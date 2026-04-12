@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<bustime-response>
+  <sb>
+    <nm>Reroute Alert</nm>
+    <sbj>Route 50 Damen</sbj>
+    <dtl>Route 50 is rerouted due to construction.</dtl>
+    <brf>Reroute on Damen</brf>
+  </sb>
+</bustime-response>
