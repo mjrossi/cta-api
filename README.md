@@ -77,10 +77,6 @@ client = CTA::TrainTracker.new(api_key: "your_key")
 
 # Get arrival predictions
 client.arrivals(stpid: "30106")
-
-# Get L stops and stations (from local CSV data)
-client.stops
-client.stations
 ```
 
 ### Customer Alerts
@@ -96,10 +92,6 @@ client.routes(stationid: "40830")
 # Get service alerts
 client.alerts
 client.alerts(activeonly: true)
-
-# Pre-compiled route lists (from CSV data)
-CTA::CustomerAlerts.train_routes
-CTA::CustomerAlerts.bus_routes
 ```
 
 ### Error Handling
@@ -125,6 +117,7 @@ end
 - **HTTPS by default** for all endpoints
 - **`Array.wrap` monkey-patch removed**
 - **`hashie` dependency removed** — responses use `CTA::API::Response` (same hash/dot-notation access)
+- **Bundled CSV data removed** — `CTA::TrainTracker#stops`, `#stations`, `CTA::CustomerAlerts.train_routes`, and `CTA::CustomerAlerts.bus_routes` are gone. For static stop/station/route data, use the CTA's [GTFS feed](https://www.transitchicago.com/developers/gtfs/) directly.
 
 ### Deprecated (will be removed in 3.0)
 

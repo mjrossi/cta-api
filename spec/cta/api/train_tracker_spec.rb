@@ -39,22 +39,6 @@ RSpec.describe CTA::TrainTracker do
     end
   end
 
-  describe "#stops" do
-    it "delegates to CTA::Shared.stops" do
-      result = client.stops
-      expect(result).to be_a(Hash)
-      expect(result).not_to be_empty
-    end
-  end
-
-  describe "#stations" do
-    it "delegates to CTA::Shared.stations" do
-      result = client.stations
-      expect(result).to be_a(Hash)
-      expect(result).not_to be_empty
-    end
-  end
-
   describe "error handling" do
     it "raises ApiError on API error responses" do
       stub_request(:get, "#{base_url}/ttarrivals.aspx")

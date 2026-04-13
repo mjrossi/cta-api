@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "httparty"
-require "csv"
 
 module CTA
   class CustomerAlerts
@@ -33,28 +32,6 @@ module CTA
 
       results = wrap_array(response["Alert"])
       results.map { |r| CTA::API::Response.new(r) } unless results.empty?
-    end
-
-    def stops
-      CTA::Shared.stops
-    end
-
-    def stations
-      CTA::Shared.stations
-    end
-
-    def self.routes_table
-      rows = CSV.read(File.expand_path("data/cta_routes.csv", __dir__))
-      headers = rows.first
-      rows.drop(1).map { |line| headers.zip(line).to_h }
-    end
-
-    def self.train_routes
-      routes_table.select { |r| r["route_type"] == "1" }
-    end
-
-    def self.bus_routes
-      routes_table.select { |r| r["route_type"] == "3" }
     end
 
     # Deprecation layer for class-method API (routes/alerts only)

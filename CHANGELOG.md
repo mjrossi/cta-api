@@ -9,6 +9,7 @@
 - **Removed `Array.wrap` monkey-patch** — no longer pollutes the global `Array` class
 - **Removed `hashie` dependency** — responses now use lightweight `CTA::API::Response` objects (still support both hash-style and dot-notation access)
 - **HTTPS by default** for all API endpoints
+- **Removed bundled CSV data** (`cta_L_stops.csv`, `cta_routes.csv`) and the methods that read them: `CTA::TrainTracker#stops`, `CTA::TrainTracker#stations`, `CTA::CustomerAlerts#stops`, `CTA::CustomerAlerts.train_routes`, `CTA::CustomerAlerts.bus_routes`. This data drifts out of date; use the [CTA GTFS feed](https://www.transitchicago.com/developers/gtfs/) for static stop/station/route information.
 
 ### New Features
 

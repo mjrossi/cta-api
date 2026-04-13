@@ -24,14 +24,6 @@ module CTA
       wrap_results(response["eta"])
     end
 
-    def stops
-      CTA::Shared.stops
-    end
-
-    def stations
-      CTA::Shared.stations
-    end
-
     # Deprecation layer for class-method API
     class << self
       def key=(key)

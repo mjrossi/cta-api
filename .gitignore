@@ -19,3 +19,4 @@ tmp
 .env
 .rubocop_cache/
 vendor/bundle
+bin/

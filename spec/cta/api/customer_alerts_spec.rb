@@ -74,32 +74,6 @@ RSpec.describe CTA::CustomerAlerts do
     end
   end
 
-  describe "#stops" do
-    it "returns stop data from CSV" do
-      result = client.stops
-      expect(result).to be_a(Hash)
-      expect(result).not_to be_empty
-    end
-  end
-
-  describe ".train_routes" do
-    it "returns train routes from CSV" do
-      routes = described_class.train_routes
-      expect(routes).to be_an(Array)
-      expect(routes).not_to be_empty
-      routes.each { |r| expect(r["route_type"]).to eq("1") }
-    end
-  end
-
-  describe ".bus_routes" do
-    it "returns bus routes from CSV" do
-      routes = described_class.bus_routes
-      expect(routes).to be_an(Array)
-      expect(routes).not_to be_empty
-      routes.each { |r| expect(r["route_type"]).to eq("3") }
-    end
-  end
-
   describe "error handling" do
     it "raises ApiError on error responses" do
       stub_request(:get, "#{base_url}/routes.aspx")
