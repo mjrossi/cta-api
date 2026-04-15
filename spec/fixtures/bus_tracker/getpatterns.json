@@ -1,0 +1,11 @@
+{
+  "bustime-response": {
+    "ptr": [
+      {
+        "pid": "5431",
+        "ln": "12500",
+        "rtdir": "Northbound"
+      }
+    ]
+  }
+}

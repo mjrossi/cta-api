@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<CTARoutes>
-  <ErrorCode>500</ErrorCode>
-  <ErrorMessage>Invalid parameter: 'not_a_field'</ErrorMessage>
-</CTARoutes>

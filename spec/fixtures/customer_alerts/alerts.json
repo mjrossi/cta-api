@@ -1,0 +1,30 @@
+{
+  "CTAAlerts": {
+    "ErrorCode": "0",
+    "ErrorMessage": null,
+    "Alert": [
+      {
+        "AlertId": "12345",
+        "Headline": "Red Line Service Alert",
+        "ShortDescription": "Expect delays on the Red Line",
+        "FullDescription": "Due to signal problems, expect delays on the Red Line between Howard and 95th.",
+        "SeverityScore": "25",
+        "SeverityColor": "ffff00",
+        "SeverityCSS": "yellow",
+        "Impact": "Minor Delays",
+        "EventStart": "20260412 08:00:00"
+      },
+      {
+        "AlertId": "12346",
+        "Headline": "Blue Line Construction",
+        "ShortDescription": "Blue Line station work",
+        "FullDescription": "Station renovation at Logan Square.",
+        "SeverityScore": "15",
+        "SeverityColor": "ffff00",
+        "SeverityCSS": "yellow",
+        "Impact": "Station Closure",
+        "EventStart": "20260410 06:00:00"
+      }
+    ]
+  }
+}

@@ -1,5 +1,27 @@
 # Changelog
 
+## [2.1.0] - 2026-04-15
+
+### Breaking Changes
+
+- **JSON response keys differ from XML** for Bus Tracker `routes`, `directions`, `stops`, and `detours` endpoints. If you were accessing raw response data, the array keys have changed (e.g., `"route"` → `"routes"`, `"dir"` → `"directions"`).
+
+### New Features
+
+- **Bus Tracker API upgraded from v1 to v3** — new base URL, structured direction responses
+- **All APIs now use JSON responses** — XML parsing removed entirely
+- **Replaced HTTParty with Faraday** — single runtime dependency; JSON parsed via stdlib
+- **New Bus Tracker endpoints**: `locales` (supported locales), `detours` (active detours by route)
+- **New Train Tracker endpoints**: `positions` (train locations by route), `follow` (follow a specific train run)
+- **Extracted shared `CTA::API::Client` module** — eliminates code duplication across client classes
+- **Empty results return `[]`** instead of `nil`
+- Added Ruby 3.4 to CI matrix
+- Restored original author attribution in gemspec
+
+### Deprecated
+
+- **`CTA::BusTracker#bulletins`** — use `CTA::BusTracker#detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
+
 ## [2.0.0] - 2026-04-12
 
 ### Breaking Changes

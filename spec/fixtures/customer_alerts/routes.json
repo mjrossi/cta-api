@@ -1,0 +1,17 @@
+{
+  "CTARoutes": {
+    "ErrorCode": "0",
+    "ErrorMessage": null,
+    "RouteInfo": [
+      {
+        "Route": "Red Line",
+        "RouteColorCode": "c60c30",
+        "RouteTextColor": "ffffff",
+        "ServiceId": "Red",
+        "RouteURL": "http://www.transitchicago.com/redline/",
+        "RouteStatus": "Normal Service",
+        "RouteStatusColor": "00a652"
+      }
+    ]
+  }
+}

@@ -3,12 +3,13 @@
 RSpec.describe CTA::CustomerAlerts do
   let(:client) { described_class.new }
   let(:base_url) { "https://www.transitchicago.com/api/1.0" }
+  let(:json_headers) { { "Content-Type" => "application/json" } }
 
   describe "#routes" do
     it "returns a single train route" do
       stub_request(:get, "#{base_url}/routes.aspx")
-        .with(query: { routeid: "red" })
-        .to_return(body: fixture("customer_alerts/routes.xml"), headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(routeid: "red", outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/routes.json"), headers: json_headers)
 
       routes = client.routes(routeid: "red")
       expect(routes.count).to eq(1)
@@ -17,9 +18,8 @@ RSpec.describe CTA::CustomerAlerts do
 
     it "returns multiple train routes" do
       stub_request(:get, "#{base_url}/routes.aspx")
-        .with(query: { routeid: "red,blue" })
-        .to_return(body: fixture("customer_alerts/routes_multiple.xml"),
-                   headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(routeid: "red,blue", outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/routes_multiple.json"), headers: json_headers)
 
       routes = client.routes(routeid: "red,blue")
       expect(routes.count).to eq(2)
@@ -29,16 +29,17 @@ RSpec.describe CTA::CustomerAlerts do
 
     it "returns route with station id" do
       stub_request(:get, "#{base_url}/routes.aspx")
-        .with(query: { stationid: "40830" })
-        .to_return(body: fixture("customer_alerts/routes.xml"), headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(stationid: "40830", outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/routes.json"), headers: json_headers)
 
       routes = client.routes(stationid: "40830")
       expect(routes.count).to eq(1)
     end
 
-    it "returns nil when no routes match" do
+    it "returns empty array when no routes match" do
       stub_request(:get, "#{base_url}/routes.aspx")
-        .to_return(body: fixture("customer_alerts/routes.xml"), headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/routes.json"), headers: json_headers)
 
       routes = client.routes
       expect(routes).not_to be_nil
@@ -48,7 +49,8 @@ RSpec.describe CTA::CustomerAlerts do
   describe "#alerts" do
     before do
       stub_request(:get, "#{base_url}/alerts.aspx")
-        .to_return(body: fixture("customer_alerts/alerts.xml"), headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/alerts.json"), headers: json_headers)
     end
 
     it "returns a list of alerts" do
@@ -66,18 +68,39 @@ RSpec.describe CTA::CustomerAlerts do
 
     it "passes options to the API" do
       stub_request(:get, "#{base_url}/alerts.aspx")
-        .with(query: { activeonly: true })
-        .to_return(body: fixture("customer_alerts/alerts.xml"), headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(activeonly: true, outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/alerts.json"), headers: json_headers)
 
       alerts = client.alerts(activeonly: true)
       expect(alerts).not_to be_empty
     end
   end
 
+  describe "empty results" do
+    it "returns an empty array when no routes match" do
+      stub_request(:get, "#{base_url}/routes.aspx")
+        .with(query: hash_including(outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/routes_empty.json"), headers: json_headers)
+
+      results = client.routes(routeid: "nonexistent")
+      expect(results).to eq([])
+    end
+
+    it "returns an empty array when no alerts exist" do
+      stub_request(:get, "#{base_url}/alerts.aspx")
+        .with(query: hash_including(outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/alerts_empty.json"), headers: json_headers)
+
+      results = client.alerts
+      expect(results).to eq([])
+    end
+  end
+
   describe "error handling" do
     it "raises ApiError on error responses" do
       stub_request(:get, "#{base_url}/routes.aspx")
-        .to_return(body: fixture("customer_alerts/error.xml"), headers: { "Content-Type" => "text/xml" })
+        .with(query: hash_including(outputType: "JSON"))
+        .to_return(body: fixture("customer_alerts/error.json"), headers: json_headers)
 
       expect { client.routes }
         .to raise_error(CTA::API::ApiError, /Invalid parameter/)

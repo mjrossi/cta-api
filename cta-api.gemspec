@@ -5,7 +5,7 @@ require_relative "lib/cta/api/version"
 Gem::Specification.new do |s|
   s.name = "cta-api"
   s.version = CTA::API::VERSION
-  s.authors = ["mjrossi"]
+  s.authors = ["Frank Bonetti", "mjrossi"]
   s.email = ["mjrossi@users.noreply.github.com"]
 
   s.summary = "Ruby wrapper for the Chicago Transit Authority API"
@@ -27,5 +27,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.files = Dir["lib/**/*", "LICENSE", "README.md"]
 
-  s.add_dependency "httparty", "~> 0.22"
+  s.add_dependency "faraday", ">= 1.0", "< 3"
 end

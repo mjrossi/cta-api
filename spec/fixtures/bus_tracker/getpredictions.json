@@ -1,0 +1,19 @@
+{
+  "bustime-response": {
+    "prd": [
+      {
+        "tmstmp": "20260412 14:30:00",
+        "typ": "A",
+        "stpnm": "Damen & Madison",
+        "stpid": "8923",
+        "vid": "1782",
+        "dstp": "1250",
+        "rt": "50",
+        "rtdir": "Northbound",
+        "des": "North",
+        "prdtm": "20260412 14:35:00",
+        "dly": false
+      }
+    ]
+  }
+}

@@ -37,6 +37,8 @@ export CTA_TRAIN_TRACKER_API_KEY="your_train_key"
 
 ### Bus Tracker
 
+Uses CTA Bus Tracker API v3 with JSON responses.
+
 ```ruby
 require "cta-api"
 
@@ -63,8 +65,15 @@ client.vehicles(vid: ["1782", "1419"])
 client.predictions(stpid: "8923", rt: "50")
 client.predictions(vid: ["1782", "1419"])
 
-# Get service bulletins
-client.bulletins(rt: "50")
+# Get route patterns
+client.patterns(pid: "5431")
+
+# Get active detours
+client.detours(rt: "50")
+client.detours(rt: "50", rtdir: "Northbound")
+
+# Get supported locales
+client.locales
 
 # Get system time
 client.time
@@ -77,6 +86,14 @@ client = CTA::TrainTracker.new(api_key: "your_key")
 
 # Get arrival predictions
 client.arrivals(stpid: "30106")
+client.arrivals(mapid: "40360")
+
+# Get train positions by route
+client.positions(rt: "brn")
+client.positions(rt: ["brn", "red"])
+
+# Follow a specific train run
+client.follow(runnumber: "421")
 ```
 
 ### Customer Alerts
@@ -107,6 +124,22 @@ rescue CTA::API::ApiError => e
   puts e.code     # => "500"
 end
 ```
+
+## Migrating from 2.0 to 2.1
+
+### What's New
+
+- **Bus Tracker API upgraded from v1 to v3** — new base URL, JSON responses
+- **All APIs now use JSON** — XML parsing removed entirely
+- **HTTParty replaced with Faraday** — single runtime dependency
+- **New Bus Tracker endpoints**: `locales`, `detours`
+- **New Train Tracker endpoints**: `positions`, `follow`
+- **`bulletins` deprecated** — use `detours` instead
+
+### Breaking Changes
+
+- **JSON response keys differ from XML** for some Bus Tracker endpoints (`routes`, `directions`, `stops`). If you were accessing raw response data, keys may have changed.
+- **v3 directions** return structured objects with `id`/`name` fields. The `directions` method still returns symbols (`:northbound`, etc.) so the public API is unchanged.
 
 ## Migrating from 1.x to 2.0
 

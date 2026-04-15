@@ -7,11 +7,15 @@ WebMock.disable_net_connect!
 
 FIXTURES_PATH = File.expand_path("fixtures", __dir__)
 
-def fixture(path)
-  File.read(File.join(FIXTURES_PATH, path))
+module FixtureHelper
+  def fixture(path)
+    File.read(File.join(FIXTURES_PATH, path))
+  end
 end
 
 RSpec.configure do |config|
+  config.include FixtureHelper
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

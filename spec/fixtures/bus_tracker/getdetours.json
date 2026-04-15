@@ -1,0 +1,22 @@
+{
+  "bustime-response": {
+    "dtrs": [
+      {
+        "dtrid": "445",
+        "rt": "50",
+        "rtdir": "Northbound",
+        "dtrnm": "Construction detour on Damen",
+        "dtrstart": "20260410 05:00:00",
+        "dtrend": "20260420 23:59:00"
+      },
+      {
+        "dtrid": "446",
+        "rt": "50",
+        "rtdir": "Southbound",
+        "dtrnm": "Water main work detour",
+        "dtrstart": "20260411 06:00:00",
+        "dtrend": "20260418 22:00:00"
+      }
+    ]
+  }
+}
