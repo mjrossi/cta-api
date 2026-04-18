@@ -111,6 +111,19 @@ client.alerts
 client.alerts(activeonly: true)
 ```
 
+### Response objects
+
+Responses are `CTA::API::Response` objects — a thin `Hash` subclass that also
+supports dot-notation at the top level (`result.rt`, `result.vid`). Nested
+objects stay as plain Hashes, and fields whose names collide with existing
+`Hash` methods (`size`, `count`, `keys`, `length`, etc.) are only reachable via
+`[]`:
+
+```ruby
+result["size"]   # works
+result.size      # returns the Hash size, not the CTA field
+```
+
 ### Error Handling
 
 ```ruby
@@ -119,9 +132,12 @@ begin
 rescue CTA::API::ConfigurationError => e
   # Missing API key
 rescue CTA::API::ApiError => e
-  # CTA API returned an error
+  # CTA API returned an error (or HTTP non-2xx)
   puts e.message  # => "CTA API Error 500: Invalid parameter"
   puts e.code     # => "500"
+rescue CTA::API::Error => e
+  # Network timeout, connection failure, or non-JSON body
+  puts e.message  # => "CTA API request timed out after 10s"
 end
 ```
 

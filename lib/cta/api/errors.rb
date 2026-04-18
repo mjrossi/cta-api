@@ -9,7 +9,8 @@ module CTA
 
       def initialize(code:, message:)
         @code = code
-        super("CTA API Error #{code}: #{message}")
+        prefix = code.nil? ? "CTA API Error" : "CTA API Error #{code}"
+        super("#{prefix}: #{message}")
       end
     end
 

@@ -27,5 +27,5 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.files = Dir["lib/**/*", "LICENSE", "README.md"]
 
-  s.add_dependency "faraday", ">= 1.0", "< 3"
+  s.add_dependency "faraday", "~> 2.0"
 end

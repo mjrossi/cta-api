@@ -2,8 +2,9 @@
 
 module CTA
   module API
-    # Lightweight hash subclass that provides dot-notation access to API response fields.
-    # Drop-in replacement for Hashie::Mash for read-only API data.
+    # Shallow, read-only analogue to Hashie::Mash. Dot-notation works at the top
+    # level only; fields whose names collide with Hash methods (size, keys, count,
+    # etc.) must be accessed via [].
     class Response < Hash
       def initialize(hash = {})
         super()

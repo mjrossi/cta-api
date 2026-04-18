@@ -11,7 +11,7 @@ module CTA
       query[:routeid] = routeid if routeid
       query[:stationid] = stationid if stationid
 
-      response = get("routes.aspx", query)
+      response = get("routes.aspx", "CTARoutes", query)
       wrap_results(response["RouteInfo"])
     end
 
@@ -21,7 +21,7 @@ module CTA
       query[:accessibility] = accessibility unless accessibility.nil?
       query[:planned] = planned unless planned.nil?
 
-      response = get("alerts.aspx", query)
+      response = get("alerts.aspx", "CTAAlerts", query)
       wrap_results(response["Alert"])
     end
 
@@ -42,11 +42,11 @@ module CTA
 
     private
 
-    def get(path, extra_query = {})
+    def get(path, envelope, extra_query = {})
       response = http_get(path, { outputType: "JSON" }.merge(extra_query))
-      envelope = response["CTARoutes"] || response["CTAAlerts"]
-      check_for_errors(envelope)
-      envelope
+      body = response[envelope]
+      check_for_errors(body)
+      body
     end
 
     def check_for_errors(response)

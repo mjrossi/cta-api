@@ -104,7 +104,7 @@ RSpec.describe CTA::BusTracker do
   describe "#patterns" do
     before do
       stub_request(:get, "#{base_url}/getpatterns")
-        .with(query: hash_including(key: api_key, format: "json"))
+        .with(query: hash_including(key: api_key, format: "json", pid: "5431"))
         .to_return(body: fixture("bus_tracker/getpatterns.json"), headers: json_headers)
     end
 

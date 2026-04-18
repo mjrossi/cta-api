@@ -31,6 +31,22 @@ RSpec.describe "Deprecation layer" do
       CTA::BusTracker.key = "my_key"
       expect(CTA::BusTracker.key).to eq("my_key")
     end
+
+    it "falls back to ENV['CTA_BUS_TRACKER_API_KEY'] when no key is set" do
+      CTA::BusTracker.key = nil
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("CTA_BUS_TRACKER_API_KEY", nil).and_return("env_bus_key")
+      expect(CTA::BusTracker.key).to eq("env_bus_key")
+    end
+  end
+
+  describe "CTA::TrainTracker.key= / .key" do
+    it "falls back to ENV['CTA_TRAIN_TRACKER_API_KEY'] when no key is set" do
+      CTA::TrainTracker.key = nil
+      allow(ENV).to receive(:fetch).and_call_original
+      allow(ENV).to receive(:fetch).with("CTA_TRAIN_TRACKER_API_KEY", nil).and_return("env_train_key")
+      expect(CTA::TrainTracker.key).to eq("env_train_key")
+    end
   end
 
   describe "CTA::TrainTracker class methods" do

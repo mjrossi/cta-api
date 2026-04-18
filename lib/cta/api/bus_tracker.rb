@@ -70,8 +70,8 @@ module CTA
     end
 
     def bulletins(rt: nil, stpid: nil)
-      warn "[DEPRECATION] CTA::BusTracker#bulletins is deprecated. " \
-           "Use CTA::BusTracker#detours instead."
+      warn "[DEPRECATION] CTA::BusTracker#bulletins is deprecated and will be " \
+           "removed in 3.0. Use CTA::BusTracker#detours instead."
       query = build_query(rt: rt, stpid: stpid)
       response = get("getservicebulletins", query)
       wrap_results(response["sb"])
@@ -113,8 +113,8 @@ module CTA
     def check_for_errors(error)
       return unless error
 
-      error = error.first if error.is_a?(Array)
-      raise CTA::API::ApiError.new(code: nil, message: error["msg"])
+      messages = Array(error).map { |e| e["msg"] }.join("; ")
+      raise CTA::API::ApiError.new(code: nil, message: messages)
     end
   end
 end
