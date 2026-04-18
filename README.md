@@ -125,22 +125,6 @@ rescue CTA::API::ApiError => e
 end
 ```
 
-## Migrating from 2.0 to 2.1
-
-### What's New
-
-- **Bus Tracker API upgraded from v1 to v3** — new base URL, JSON responses
-- **All APIs now use JSON** — XML parsing removed entirely
-- **HTTParty replaced with Faraday** — single runtime dependency
-- **New Bus Tracker endpoints**: `locales`, `detours`
-- **New Train Tracker endpoints**: `positions`, `follow`
-- **`bulletins` deprecated** — use `detours` instead
-
-### Breaking Changes
-
-- **JSON response keys differ from XML** for some Bus Tracker endpoints (`routes`, `directions`, `stops`). If you were accessing raw response data, keys may have changed.
-- **v3 directions** return structured objects with `id`/`name` fields. The `directions` method still returns symbols (`:northbound`, etc.) so the public API is unchanged.
-
 ## Migrating from 1.x to 2.0
 
 ### Breaking Changes
@@ -150,7 +134,16 @@ end
 - **HTTPS by default** for all endpoints
 - **`Array.wrap` monkey-patch removed**
 - **`hashie` dependency removed** — responses use `CTA::API::Response` (same hash/dot-notation access)
+- **HTTParty replaced with Faraday** — single runtime dependency; responses parsed as JSON
+- **Bus Tracker API upgraded from v1 to v3** — new base URL, JSON responses. JSON response keys differ from the old XML shape for `routes`, `directions`, `stops`, and `detours`. v3 directions return structured objects with `id`/`name` fields, but the `directions` method still returns symbols (`:northbound`, etc.), so the public API is unchanged.
+- **All APIs now use JSON** — XML parsing removed entirely
+- **Empty results return `[]`** instead of `nil`
 - **Bundled CSV data removed** — `CTA::TrainTracker#stops`, `#stations`, `CTA::CustomerAlerts.train_routes`, and `CTA::CustomerAlerts.bus_routes` are gone. For static stop/station/route data, use the CTA's [GTFS feed](https://www.transitchicago.com/developers/gtfs/) directly.
+
+### New Endpoints
+
+- **Bus Tracker**: `locales`, `detours`
+- **Train Tracker**: `positions`, `follow`
 
 ### Deprecated (will be removed in 3.0)
 
@@ -165,6 +158,8 @@ CTA::BusTracker.routes
 client = CTA::BusTracker.new(api_key: "your_key")
 client.routes
 ```
+
+`CTA::BusTracker#bulletins` is also deprecated — use `CTA::BusTracker#detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
 
 ## Development
 
