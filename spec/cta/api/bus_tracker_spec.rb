@@ -171,24 +171,6 @@ RSpec.describe CTA::BusTracker do
     end
   end
 
-  describe "#bulletins" do
-    before do
-      stub_request(:get, "#{base_url}/getservicebulletins")
-        .with(query: hash_including(key: api_key, format: "json"))
-        .to_return(body: fixture("bus_tracker/getservicebulletins.json"), headers: json_headers)
-    end
-
-    it "returns an array of bulletin Response objects" do
-      result = suppress_output { client.bulletins(rt: "50") }
-      expect(result).to be_an(Array)
-      expect(result.first["nm"]).to eq("Reroute Alert")
-    end
-
-    it "emits a deprecation warning" do
-      expect { client.bulletins(rt: "50") }.to output(/DEPRECATION/).to_stderr
-    end
-  end
-
   describe "empty results" do
     it "returns an empty array when no vehicles are found" do
       stub_request(:get, "#{base_url}/getvehicles")
@@ -208,15 +190,5 @@ RSpec.describe CTA::BusTracker do
 
       expect { client.routes }.to raise_error(CTA::API::ApiError, /No data found/)
     end
-  end
-
-  private
-
-  def suppress_output
-    original_stderr = $stderr
-    $stderr = StringIO.new
-    yield
-  ensure
-    $stderr = original_stderr
   end
 end

@@ -67,6 +67,7 @@ client.predictions(vid: ["1782", "1419"])
 
 # Get route patterns
 client.patterns(pid: "5431")
+client.patterns(rt: "50")
 
 # Get active detours
 client.detours(rt: "50")
@@ -87,6 +88,7 @@ client = CTA::TrainTracker.new(api_key: "your_key")
 # Get arrival predictions
 client.arrivals(stpid: "30106")
 client.arrivals(mapid: "40360")
+client.arrivals(stpid: "30106", max: 5)
 
 # Get train positions by route
 client.positions(rt: "brn")
@@ -109,6 +111,8 @@ client.routes(stationid: "40830")
 # Get service alerts
 client.alerts
 client.alerts(activeonly: true)
+client.alerts(accessibility: true)
+client.alerts(planned: true)
 ```
 
 ### Response objects
@@ -126,17 +130,22 @@ result.size      # returns the Hash size, not the CTA field
 
 ### Error Handling
 
+All errors inherit from `CTA::API::Error`:
+
+- **`ConfigurationError`** — missing API key at initialization
+- **`ApiError`** — CTA API returned an error, or HTTP non-2xx response.
+  Has a `code` attribute (integer HTTP status, string CTA error code, or nil)
+- **`Error`** — network timeout, connection failure, or non-JSON body
+
 ```ruby
 begin
   client.routes
 rescue CTA::API::ConfigurationError => e
-  # Missing API key
+  puts e.message  # => "BusTracker API key is required"
 rescue CTA::API::ApiError => e
-  # CTA API returned an error (or HTTP non-2xx)
-  puts e.message  # => "CTA API Error 500: Invalid parameter"
-  puts e.code     # => "500"
+  puts e.message  # => "CTA API Error: No data found for parameter"
+  puts e.code     # => nil, "101", or 500 (depends on error source)
 rescue CTA::API::Error => e
-  # Network timeout, connection failure, or non-JSON body
   puts e.message  # => "CTA API request timed out after 10s"
 end
 ```
@@ -155,27 +164,13 @@ end
 - **All APIs now use JSON** — XML parsing removed entirely
 - **Empty results return `[]`** instead of `nil`
 - **Bundled CSV data removed** — `CTA::TrainTracker#stops`, `#stations`, `CTA::CustomerAlerts.train_routes`, and `CTA::CustomerAlerts.bus_routes` are gone. For static stop/station/route data, use the CTA's [GTFS feed](https://www.transitchicago.com/developers/gtfs/) directly.
+- **Removed class-method API** — `CTA::BusTracker.key=` / `CTA::BusTracker.routes` and equivalent class methods on `TrainTracker` and `CustomerAlerts` are gone. Use instance-based clients instead.
+- **Removed `bulletins`** — use `detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
 
 ### New Endpoints
 
 - **Bus Tracker**: `locales`, `detours`
 - **Train Tracker**: `positions`, `follow`
-
-### Deprecated (will be removed in 3.0)
-
-The old class-method API still works but emits deprecation warnings:
-
-```ruby
-# Old (deprecated):
-CTA::BusTracker.key = "your_key"
-CTA::BusTracker.routes
-
-# New:
-client = CTA::BusTracker.new(api_key: "your_key")
-client.routes
-```
-
-`CTA::BusTracker#bulletins` is also deprecated — use `CTA::BusTracker#detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
 
 ## Development
 

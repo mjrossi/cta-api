@@ -25,21 +25,6 @@ module CTA
       wrap_results(response["Alert"])
     end
 
-    # Deprecation layer for class-method API
-    class << self
-      def routes(**opts)
-        warn "[DEPRECATION] CTA::CustomerAlerts.routes class method is deprecated. " \
-             "Use CTA::CustomerAlerts.new.routes instead."
-        new.routes(**opts)
-      end
-
-      def alerts(**opts)
-        warn "[DEPRECATION] CTA::CustomerAlerts.alerts class method is deprecated. " \
-             "Use CTA::CustomerAlerts.new.alerts instead."
-        new.alerts(**opts)
-      end
-    end
-
     private
 
     def get(path, envelope, extra_query = {})

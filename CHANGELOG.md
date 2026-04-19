@@ -14,6 +14,8 @@
 - **All APIs now use JSON responses** — XML parsing removed entirely
 - **Replaced HTTParty with Faraday** — single runtime dependency; JSON parsed via stdlib
 - **Empty results return `[]`** instead of `nil`
+- **Removed class-method API** — `CTA::BusTracker.key=`, `CTA::BusTracker.routes`, and equivalent class methods on `TrainTracker` and `CustomerAlerts` are gone. Use instance-based clients.
+- **Removed `CTA::BusTracker#bulletins`** — use `CTA::BusTracker#detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
 
 ### New Features
 
@@ -28,11 +30,6 @@
 - **New Train Tracker endpoints**: `positions` (train locations by route), `follow` (follow a specific train run)
 - Extracted shared `CTA::API::Client` module — eliminates code duplication across client classes
 - HTTP timeouts (5s open, 10s read) and wrapped error handling — network, timeout, and JSON-parse failures raise `CTA::API::Error` instead of leaking `Faraday::*` or `JSON::ParserError`. HTTP non-2xx responses raise `CTA::API::ApiError` with the status code.
-
-### Deprecated (will be removed in 3.0)
-
-- Class-method API (`CTA::BusTracker.key = x; CTA::BusTracker.routes`) still works but emits deprecation warnings. Use instance-based API instead.
-- **`CTA::BusTracker#bulletins`** — use `CTA::BusTracker#detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
 
 ## [1.0.1] - 2013-02-02
 

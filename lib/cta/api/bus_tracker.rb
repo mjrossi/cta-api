@@ -69,33 +69,6 @@ module CTA
       wrap_results(response["dtrs"])
     end
 
-    def bulletins(rt: nil, stpid: nil)
-      warn "[DEPRECATION] CTA::BusTracker#bulletins is deprecated and will be " \
-           "removed in 3.0. Use CTA::BusTracker#detours instead."
-      query = build_query(rt: rt, stpid: stpid)
-      response = get("getservicebulletins", query)
-      wrap_results(response["sb"])
-    end
-
-    # Deprecation layer for class-method API
-    class << self
-      def key=(key)
-        @default_key = key
-      end
-
-      def key
-        @default_key || ENV.fetch("CTA_BUS_TRACKER_API_KEY", nil)
-      end
-
-      %i[time vehicles routes directions stops patterns predictions locales detours bulletins].each do |method_name|
-        define_method(method_name) do |**opts|
-          warn "[DEPRECATION] CTA::BusTracker.#{method_name} is deprecated. " \
-               "Use CTA::BusTracker.new(api_key: '...').#{method_name} instead."
-          new(api_key: key).public_send(method_name, **opts)
-        end
-      end
-    end
-
     private
 
     def get(path, extra_query = {})
