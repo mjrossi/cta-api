@@ -6,7 +6,7 @@
 Gemfile.lock
 InstalledFiles
 _yardoc
-coverage
+coverage/
 doc/
 lib/bundler/man
 pkg
@@ -16,3 +16,7 @@ test/tmp
 test/version_tmp
 tmp
 .direnv
+.env
+.rubocop_cache/
+vendor/bundle
+bin/

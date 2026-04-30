@@ -1,21 +1,31 @@
-Gem::Specification.new do |s|
-  s.name = 'cta-api'
-  s.version = '1.0.1'
-  s.author = 'Frank Bonetti'
-  s.homepage = 'https://github.com/fbonetti/cta-api'
-  s.date = '2013-02-02'
+# frozen_string_literal: true
 
-  s.license = 'MIT'
+require_relative "lib/cta/api/version"
+
+Gem::Specification.new do |s|
+  s.name = "cta-api"
+  s.version = CTA::API::VERSION
+  s.authors = ["Frank Bonetti", "mjrossi"]
+  s.email = ["mjrossi@users.noreply.github.com"]
+
+  s.summary = "Ruby wrapper for the Chicago Transit Authority API"
+  s.description = "Access the Chicago Transit Authority API for real-time bus and train tracking, " \
+                  "arrival predictions, and service alerts."
+  s.homepage = "https://github.com/mjrossi/cta-api"
+  s.license = "MIT"
+
+  s.required_ruby_version = ">= 3.1"
   s.platform = Gem::Platform::RUBY
 
-  s.description = 'An easy way to access the Chicago Transit Authority API via the Ruby programming language'
-  s.summary = 'An easy way to access the Chicago Transit Authority API via the Ruby programming language'
-  s.email = 'frank.r.bonetti@gmail.com'
+  s.metadata = {
+    "source_code_uri" => "https://github.com/mjrossi/cta-api",
+    "changelog_uri" => "https://github.com/mjrossi/cta-api/blob/main/CHANGELOG.md",
+    "bug_tracker_uri" => "https://github.com/mjrossi/cta-api/issues",
+    "rubygems_mfa_required" => "true"
+  }
 
-  s.require_paths = ['lib']
-  s.files = Dir.glob("**/*").reject { |x| File.directory?(x) }
-  s.add_dependency('httparty', '>= 0.10.2')
-  s.add_dependency('hashie', '>= 2.0.0')
-  s.add_development_dependency "rspec"
-  s.add_development_dependency "pry"
+  s.require_paths = ["lib"]
+  s.files = Dir["lib/**/*", "LICENSE", "README.md"]
+
+  s.add_dependency "faraday", "~> 2.0"
 end

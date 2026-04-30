@@ -1,0 +1,29 @@
+{
+  "ctatt": {
+    "tmst": "20260412 14:30:00",
+    "errCd": "0",
+    "errNm": null,
+    "route": [
+      {
+        "@name": "brn",
+        "train": [
+          {
+            "rn": "421",
+            "destSt": "30249",
+            "destNm": "Loop",
+            "nextStaId": "40360",
+            "nextStpId": "30106",
+            "nextStaNm": "Southport",
+            "prdt": "20260412 14:28:00",
+            "arrT": "20260412 14:35:00",
+            "isApp": "0",
+            "isDly": "0",
+            "lat": "41.9439",
+            "lon": "-87.6637",
+            "heading": "162"
+          }
+        ]
+      }
+    ]
+  }
+}

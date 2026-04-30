@@ -1,145 +1,188 @@
-## Install
+# CTA API
 
-Via rubygems.org:
+[![CI](https://github.com/mjrossi/cta-api/actions/workflows/ci.yml/badge.svg)](https://github.com/mjrossi/cta-api/actions/workflows/ci.yml)
+
+A Ruby gem for accessing the Chicago Transit Authority (CTA) API. Track real-time bus and train locations, get arrival predictions, and check service alerts.
+
+## Installation
+
+Add to your Gemfile:
+
+```ruby
+gem "cta-api"
+```
+
+Or install directly:
 
 ```
-$ gem install cta-api
+gem install cta-api
+```
+
+## Configuration
+
+API keys are required for Bus Tracker and Train Tracker. Get yours at:
+
+- **Bus Tracker**: https://www.transitchicago.com/developers/bustracker.aspx
+- **Train Tracker**: https://www.transitchicago.com/developers/traintracker.aspx
+- **Customer Alerts**: No key required
+
+You can pass keys directly or set environment variables:
+
+```bash
+export CTA_BUS_TRACKER_API_KEY="your_bus_key"
+export CTA_TRAIN_TRACKER_API_KEY="your_train_key"
 ```
 
 ## Usage
 
-This gem allows you to access the Chicago Transit Authority API via Ruby. You can track the real-time locations of all public transportation vehicles, including buses and trains. You can obtain API keys from the CTA website:
+### Bus Tracker
 
-* http://www.transitchicago.com/developers/bustracker.aspx
-* http://www.transitchicago.com/developers/traintracker.aspx
-
-While no keys are required for the CustomerAlerts API, you can find more information about this part of the API at:
-
-* http://www.transitchicago.com/developers/alerts.aspx
-
-## Bus Tracker
-
-### Setup
-
-``` ruby
-require 'cta-api'
-
-key = "XXXXXXXXXXXXXXXXXXXXXXXXX"
-CTA::BusTracker.key = key
-```
-
-### Find Routes and Stops
-
-``` ruby
-# list all available routes
-CTA::BusTracker.routes
-
-# gets the available directions for the specified route (north, south, etc.)
-CTA::BusTracker.directions :rt => 50
-
-# list all stops that belong to a particular route
-CTA::BusTracker.stops :rt => 50, :dir => :north
-```
-
-### Find Vehicles
-
-``` ruby
-# returns an array of vehicles that travel the given routes
-CTA::BusTracker.vehicles :rt => 50
-
-# returns an array of vehicles with the given vehicle ids
-CTA::BusTracker.vehicles :vid => ["1782", "1419", "1773"]
-```
-
-### Get Predicted Arrival Times
-
-``` ruby
-# get arrival times for a list of stop ids
-# note that the rt parameter is optional
-CTA::BusTracker.predictions :stpid => 8923, :rt => 50
-
-# get arrival times for a list of vehicle ids
-CTA::BusTracker.predictions :vid => ["1782", "1419", "1773"]
-```
-
-### Get System Time
-``` ruby
-CTA::BusTracker.time
-```
-
-## Train Tracker
-
-### Setup
-
-``` ruby
-require 'cta-api'
-
-key = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
-CTA::TrainTracker.key = key
-```
-
-### Get a List of Stops and Stations
-
-``` ruby
-# stops
-CTA::TrainTracker.stops
-
-# stations
-CTA::TrainTracker.stations
-```
-
-### Get Predicted Arrival Times
-
-``` ruby
-CTA::TrainTracker.arrivals :stpid => "30106"
-```
-
-## Customer Alerts
-
-### Setup
-
-``` ruby
-require 'cta-api'
-```
-
-### Get the status of a route
-
-``` ruby
-# routes (train)
-options = {
-  :routeid => "red,blue"
-}
-
-CTA::CustomerAlerts.routes(options)
-
-# routes (bus)
-options = {
-  :routeid => "8,36"
-}
-
-CTA::CustomerAlerts.routes(options)
-```
-
-### Get alerts from the system
+Uses CTA Bus Tracker API v3 with JSON responses.
 
 ```ruby
-# alerts
-CTA::CustomerAlerts.alerts
+require "cta-api"
 
-# alerts (with options)
-options = {
-  :activeonly => true,
-}
+client = CTA::BusTracker.new(api_key: "your_key")
+# Or, if ENV["CTA_BUS_TRACKER_API_KEY"] is set:
+client = CTA::BusTracker.new
 
-CTA::CustomerAlerts.alerts(options)
+# List all routes
+client.routes
+# => {"50"=>"Damen", "8"=>"Halsted", ...}
+
+# Get directions for a route
+client.directions(rt: "50")
+# => [:northbound, :southbound]
+
+# List stops for a route and direction
+client.stops(rt: "50", dir: :north)
+
+# Get real-time vehicle locations
+client.vehicles(rt: "50")
+client.vehicles(vid: ["1782", "1419"])
+
+# Get arrival predictions
+client.predictions(stpid: "8923", rt: "50")
+client.predictions(vid: ["1782", "1419"])
+
+# Get route patterns
+client.patterns(pid: "5431")
+client.patterns(rt: "50")
+
+# Get active detours
+client.detours(rt: "50")
+client.detours(rt: "50", rtdir: "Northbound")
+
+# Get supported locales
+client.locales
+
+# Get system time
+client.time
 ```
 
-### Get a List of routes (pre-compiled list as of 2016-09-30 - this API does not provide live route information)
+### Train Tracker
 
-``` ruby
-# train_routes
-CTA::CustomerAlerts.train_routes
+```ruby
+client = CTA::TrainTracker.new(api_key: "your_key")
 
-# bus_routes
-CTA::CustomerAlerts.bus_routes
+# Get arrival predictions
+client.arrivals(stpid: "30106")
+client.arrivals(mapid: "40360")
+client.arrivals(stpid: "30106", max: 5)
+
+# Get train positions by route
+client.positions(rt: "brn")
+client.positions(rt: ["brn", "red"])
+
+# Follow a specific train run
+client.follow(runnumber: "421")
 ```
+
+### Customer Alerts
+
+```ruby
+client = CTA::CustomerAlerts.new  # No API key needed
+
+# Get route status
+client.routes(routeid: "red")
+client.routes(routeid: "red,blue")
+client.routes(stationid: "40830")
+
+# Get service alerts
+client.alerts
+client.alerts(activeonly: true)
+client.alerts(accessibility: true)
+client.alerts(planned: true)
+```
+
+### Response objects
+
+Responses are `CTA::API::Response` objects — a thin `Hash` subclass that also
+supports dot-notation at the top level (`result.rt`, `result.vid`). Nested
+objects stay as plain Hashes, and fields whose names collide with existing
+`Hash` methods (`size`, `count`, `keys`, `length`, etc.) are only reachable via
+`[]`:
+
+```ruby
+result["size"]   # works
+result.size      # returns the Hash size, not the CTA field
+```
+
+### Error Handling
+
+All errors inherit from `CTA::API::Error`:
+
+- **`ConfigurationError`** — missing API key at initialization
+- **`ApiError`** — CTA API returned an error, or HTTP non-2xx response.
+  Has a `code` attribute (integer HTTP status, string CTA error code, or nil)
+- **`Error`** — network timeout, connection failure, or non-JSON body
+
+```ruby
+begin
+  client.routes
+rescue CTA::API::ConfigurationError => e
+  puts e.message  # => "BusTracker API key is required"
+rescue CTA::API::ApiError => e
+  puts e.message  # => "CTA API Error: No data found for parameter"
+  puts e.code     # => nil, "101", or 500 (depends on error source)
+rescue CTA::API::Error => e
+  puts e.message  # => "CTA API request timed out after 10s"
+end
+```
+
+## Migrating from 1.x to 2.0
+
+### Breaking Changes
+
+- **Ruby >= 3.1 required** (was 2.7)
+- **API errors raise exceptions** instead of printing to stdout
+- **HTTPS by default** for all endpoints
+- **`Array.wrap` monkey-patch removed**
+- **`hashie` dependency removed** — responses use `CTA::API::Response` (same hash/dot-notation access)
+- **HTTParty replaced with Faraday** — single runtime dependency; responses parsed as JSON
+- **Bus Tracker API upgraded from v1 to v3** — new base URL, JSON responses. JSON response keys differ from the old XML shape for `routes`, `directions`, `stops`, and `detours`. v3 directions return structured objects with `id`/`name` fields, but the `directions` method still returns symbols (`:northbound`, etc.), so the public API is unchanged.
+- **All APIs now use JSON** — XML parsing removed entirely
+- **Empty results return `[]`** instead of `nil`
+- **Bundled CSV data removed** — `CTA::TrainTracker#stops`, `#stations`, `CTA::CustomerAlerts.train_routes`, and `CTA::CustomerAlerts.bus_routes` are gone. For static stop/station/route data, use the CTA's [GTFS feed](https://www.transitchicago.com/developers/gtfs/) directly.
+- **Removed class-method API** — `CTA::BusTracker.key=` / `CTA::BusTracker.routes` and equivalent class methods on `TrainTracker` and `CustomerAlerts` are gone. Use instance-based clients instead.
+- **Removed `bulletins`** — use `detours` instead. The `getservicebulletins` endpoint is not documented in Bus Tracker API v3.
+
+### New Endpoints
+
+- **Bus Tracker**: `locales`, `detours`
+- **Train Tracker**: `positions`, `follow`
+
+## Development
+
+```bash
+git clone https://github.com/mjrossi/cta-api.git
+cd cta-api
+bundle install
+bundle exec rake        # runs rubocop + rspec
+bundle exec rspec       # tests only
+bundle exec rubocop     # lint only
+```
+
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.

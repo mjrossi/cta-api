@@ -1,0 +1,18 @@
+{
+  "bustime-response": {
+    "stops": [
+      {
+        "stpid": "8923",
+        "stpnm": "Damen & Madison",
+        "lat": "41.8819",
+        "lon": "-87.6768"
+      },
+      {
+        "stpid": "8924",
+        "stpnm": "Damen & Monroe",
+        "lat": "41.8805",
+        "lon": "-87.6768"
+      }
+    ]
+  }
+}

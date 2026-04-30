@@ -1,0 +1,51 @@
+{
+  "ctatt": {
+    "tmst": "20260412 14:30:00",
+    "errCd": "0",
+    "errNm": null,
+    "eta": [
+      {
+        "staId": "40360",
+        "stpId": "30106",
+        "staNm": "Southport",
+        "stpDe": "Service toward Loop",
+        "rn": "421",
+        "rt": "Brn",
+        "destSt": "30249",
+        "destNm": "Loop",
+        "trDr": "5",
+        "prdt": "20260412 14:28:00",
+        "arrT": "20260412 14:35:00",
+        "isApp": "0",
+        "isSch": "0",
+        "isDly": "0",
+        "isFlt": "0",
+        "flags": null,
+        "lat": "41.9439",
+        "lon": "-87.6637",
+        "heading": "162"
+      },
+      {
+        "staId": "40710",
+        "stpId": "30107",
+        "staNm": "Paulina",
+        "stpDe": "Service toward Loop",
+        "rn": "421",
+        "rt": "Brn",
+        "destSt": "30249",
+        "destNm": "Loop",
+        "trDr": "5",
+        "prdt": "20260412 14:28:00",
+        "arrT": "20260412 14:38:00",
+        "isApp": "0",
+        "isSch": "0",
+        "isDly": "0",
+        "isFlt": "0",
+        "flags": null,
+        "lat": "41.9439",
+        "lon": "-87.6637",
+        "heading": "162"
+      }
+    ]
+  }
+}

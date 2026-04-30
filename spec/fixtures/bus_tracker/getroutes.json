@@ -1,0 +1,14 @@
+{
+  "bustime-response": {
+    "routes": [
+      {
+        "rt": "50",
+        "rtnm": "Damen"
+      },
+      {
+        "rt": "8",
+        "rtnm": "Halsted"
+      }
+    ]
+  }
+}
